@@ -4,7 +4,8 @@
   "main": "js/main.js",
   "scripts": {
     "test": "test",
-    "build": "tsc --outDir js --sourceMap"
+    "build": "tsc --outDir js --sourceMap",
+    "watch": "tsc --outDir js --sourceMap --watch"
   },
   "author": "",
   "license": "UNLICENSED",
