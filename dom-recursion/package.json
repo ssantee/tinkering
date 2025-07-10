@@ -1,0 +1,12 @@
+{
+  "name": "dom-recursion",
+  "version": "1.0.0",
+  "main": "js/main.js",
+  "scripts": {
+    "test": "test",
+    "build": "tsc --outDir js --sourceMap"
+  },
+  "author": "",
+  "license": "UNLICENSED",
+  "description": ""
+}
