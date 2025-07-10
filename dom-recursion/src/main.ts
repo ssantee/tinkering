@@ -1,20 +1,14 @@
 class ElementTree {
     element: HTMLElement;
-    childNodes: NodeListOf<ChildNode>;
     childElements: Array<ElementTree>;
     displayString: string;
 
     constructor(element: HTMLElement) {
         this.element = element;
         this.displayString = element.nodeName;
-        this.childNodes = element.childNodes;
         this.childElements = Array.from(element.childNodes)
             .filter((n) => n instanceof HTMLElement)
             .map((e) => new ElementTree(e));
-    }
-
-    hasChildren(): boolean {
-        return this.element.children && this.element.children.length > 0;
     }
 }
 
@@ -35,7 +29,7 @@ class TreeDisplayer {
 
         this.print(e.displayString, depth);
 
-        e.childElements.forEach((e, i) => {
+        e.childElements.forEach((e) => {
             this.display(e, depth);
         });
     }
