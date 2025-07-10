@@ -11,25 +11,24 @@ class ElementContainer {
         return this.element.children && this.element.children.length > 0;
     }
 }
-class TreeLogger {
-    constructor(character) {
+class TreeDisplayer {
+    constructor(root, character) {
         this.character = "\t";
         this.character = character;
+        this.root = root;
     }
-    log(elementName, depth) {
+    print(elementName, depth) {
         const ind = this.character.repeat(depth);
         console.log(ind + elementName);
     }
+    display(e, depth) {
+        depth = depth === undefined ? 0 : depth + 1;
+        e = e ? e : new ElementContainer(this.root);
+        this.print(e.element.nodeName, depth);
+        e.childElements.forEach((e, i) => {
+            this.display(e, depth);
+        });
+    }
 }
-function process(node, depth, logger) {
-    // base case is inferred from length of children
-    // when 0, we won't resurse
-    logger.log(node.element.nodeName, depth);
-    depth = depth + 1;
-    node.childElements.forEach((e, i) => {
-        process(e, depth, logger);
-    });
-}
-const tl = new TreeLogger("\t");
-process(new ElementContainer(document.documentElement), 0, tl);
+new TreeDisplayer(document.documentElement, "\t").display();
 //# sourceMappingURL=main.js.map

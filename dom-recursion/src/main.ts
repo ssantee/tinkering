@@ -16,30 +16,27 @@ class ElementContainer {
     }
 }
 
-class TreeLogger {
-    character: string = "\t";
-    constructor(character: string) {
+class TreeDisplayer {
+    private character: string = "\t";
+    private root: HTMLElement;
+    constructor(root: HTMLElement, character: string) {
         this.character = character;
+        this.root = root;
     }
-    log(elementName: string, depth: number) {
+    private print(elementName: string, depth: number) {
         const ind = this.character.repeat(depth);
         console.log(ind + elementName);
     }
+    public display(e?: ElementContainer, depth?: number) {
+        depth = depth === undefined ? 0 : depth + 1;
+        e = e ? e : new ElementContainer(this.root);
+
+        this.print(e.element.nodeName, depth);
+
+        e.childElements.forEach((e, i) => {
+            this.display(e, depth);
+        });
+    }
 }
 
-function process(node: ElementContainer, depth: number, logger: TreeLogger) {
-    // base case is inferred from length of children
-    // when 0, we won't resurse
-
-    logger.log(node.element.nodeName, depth);
-
-    depth = depth + 1;
-
-    node.childElements.forEach((e, i) => {
-        process(e, depth, logger);
-    });
-}
-
-const tl = new TreeLogger("\t");
-
-process(new ElementContainer(document.documentElement), 0, tl);
+new TreeDisplayer(document.documentElement, "\t").display();
