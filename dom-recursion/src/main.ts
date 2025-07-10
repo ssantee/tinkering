@@ -41,3 +41,18 @@ interface Printable {
 }
 
 new TreeDisplayer(new ElementTree(document.documentElement), "\t").display();
+
+new TreeDisplayer(
+    {
+        displayString: "Untyped Printable!",
+        childElements: [
+            {
+                displayString: "a child",
+                childElements: [
+                    { displayString: "2nd tier child", childElements: [] },
+                ],
+            },
+        ],
+    },
+    "\t"
+).display();
