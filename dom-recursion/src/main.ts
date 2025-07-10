@@ -39,4 +39,9 @@ class TreeDisplayer {
     }
 }
 
+interface Printable {
+    nodeName: string;
+    childElements: Array<Printable>;
+}
+
 new TreeDisplayer(document.documentElement, "\t").display();
