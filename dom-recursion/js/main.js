@@ -12,27 +12,24 @@ class ElementContainer {
     }
 }
 class TreeLogger {
-    static log(elementName, depth) {
+    constructor(character) {
+        this.character = "\t";
+        this.character = character;
+    }
+    log(elementName, depth) {
         const ind = this.character.repeat(depth);
         console.log(ind + elementName);
     }
-    static repeatString(count) {
-        let o = "";
-        for (let c = 0; c < count; c++) {
-            o += this.character;
-        }
-        return o;
-    }
 }
-TreeLogger.character = "\t";
-function process(node, depth) {
+function process(node, depth, logger) {
     // base case is inferred from length of children
     // when 0, we won't resurse
-    TreeLogger.log(node.element.nodeName, depth);
+    logger.log(node.element.nodeName, depth);
     depth = depth + 1;
     node.childElements.forEach((e, i) => {
-        process(e, depth);
+        process(e, depth, logger);
     });
 }
-process(new ElementContainer(document.documentElement), 0);
+const tl = new TreeLogger("\t");
+process(new ElementContainer(document.documentElement), 0, tl);
 //# sourceMappingURL=main.js.map

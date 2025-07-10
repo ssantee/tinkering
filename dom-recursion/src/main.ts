@@ -1,29 +1,45 @@
-function hasChildren(element: HTMLElement): boolean {
-    return element.children && element.children.length > 0;
-}
+class ElementContainer {
+    element: HTMLElement;
+    childNodes: NodeListOf<ChildNode>;
+    childElements: Array<ElementContainer>;
 
-function repeatString(count: number): string {
-    let o = "";
-    for (let c = 0; c < count; c++) {
-        o += "-";
+    constructor(element: HTMLElement) {
+        this.element = element;
+        this.childNodes = element.childNodes;
+        this.childElements = Array.from(element.childNodes)
+            .filter((n) => n instanceof HTMLElement)
+            .map((e) => new ElementContainer(e));
     }
-    return o;
+
+    hasChildren(): boolean {
+        return this.element.children && this.element.children.length > 0;
+    }
 }
 
-function process(node: HTMLElement, depth: number) {
+class TreeLogger {
+    character: string = "\t";
+    constructor(character: string) {
+        this.character = character;
+    }
+    log(elementName: string, depth: number) {
+        const ind = this.character.repeat(depth);
+        console.log(ind + elementName);
+    }
+}
+
+function process(node: ElementContainer, depth: number, logger: TreeLogger) {
     // base case is inferred from length of children
     // when 0, we won't resurse
-    let children = Array.from(node.childNodes).filter(
-        (n) => n instanceof HTMLElement
-    );
 
-    const ind = repeatString(depth);
-    console.log(ind + node.nodeName);
+    logger.log(node.element.nodeName, depth);
+
     depth = depth + 1;
 
-    children.forEach((e, i) => {
-        process(e, depth);
+    node.childElements.forEach((e, i) => {
+        process(e, depth, logger);
     });
 }
 
-process(document.documentElement, 0);
+const tl = new TreeLogger("\t");
+
+process(new ElementContainer(document.documentElement), 0, tl);
