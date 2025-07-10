@@ -29,15 +29,16 @@ class TreeDisplayer {
 
         this.print(e.displayString, depth);
 
-        e.childElements.forEach((e) => {
-            this.display(e, depth);
-        });
+        e.childElements &&
+            e.childElements.forEach((e) => {
+                this.display(e, depth);
+            });
     }
 }
 
 interface Printable {
     displayString: string;
-    childElements: Array<Printable>;
+    childElements?: Array<Printable>;
 }
 
 new TreeDisplayer(new ElementTree(document.documentElement), "\t").display();
@@ -48,9 +49,7 @@ new TreeDisplayer(
         childElements: [
             {
                 displayString: "a child",
-                childElements: [
-                    { displayString: "2nd tier child", childElements: [] },
-                ],
+                childElements: [{ displayString: "2nd tier child" }],
             },
         ],
     },
