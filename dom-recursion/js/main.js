@@ -1,13 +1,4 @@
 "use strict";
-class ElementTree {
-    constructor(element) {
-        this.element = element;
-        this.displayString = element.nodeName;
-        this.childElements = Array.from(element.childNodes)
-            .filter((n) => n instanceof HTMLElement)
-            .map((e) => new ElementTree(e));
-    }
-}
 class TreeDisplayer {
     constructor(root, character, outputMethod, printTarget) {
         this.character = "\t";
@@ -60,6 +51,15 @@ class TreeDisplayer {
             e.childElements.forEach((e) => {
                 this.display(e, depth);
             });
+    }
+}
+class ElementTree {
+    constructor(element) {
+        this.element = element;
+        this.displayString = element.nodeName;
+        this.childElements = Array.from(element.childNodes)
+            .filter((n) => n instanceof HTMLElement)
+            .map((e) => new ElementTree(e));
     }
 }
 new TreeDisplayer(new ElementTree(document.documentElement), "\t").display();

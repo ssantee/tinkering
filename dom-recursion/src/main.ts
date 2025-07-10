@@ -1,15 +1,14 @@
-class ElementTree {
-    element: HTMLElement;
-    childElements: Array<ElementTree>;
+interface Printable {
     displayString: string;
+    childElements?: Array<Printable>;
+}
 
-    constructor(element: HTMLElement) {
-        this.element = element;
-        this.displayString = element.nodeName;
-        this.childElements = Array.from(element.childNodes)
-            .filter((n) => n instanceof HTMLElement)
-            .map((e) => new ElementTree(e));
-    }
+interface ElementPrintTarget {
+    appendChild: Node["appendChild"];
+}
+
+interface InputPrintTarget {
+    value: string;
 }
 
 type TreeOutputMethod = "console" | "text" | "render";
@@ -86,17 +85,18 @@ class TreeDisplayer {
     }
 }
 
-interface Printable {
+class ElementTree {
+    element: HTMLElement;
+    childElements: Array<ElementTree>;
     displayString: string;
-    childElements?: Array<Printable>;
-}
 
-interface ElementPrintTarget {
-    appendChild: Node["appendChild"];
-}
-
-interface InputPrintTarget {
-    value: string;
+    constructor(element: HTMLElement) {
+        this.element = element;
+        this.displayString = element.nodeName;
+        this.childElements = Array.from(element.childNodes)
+            .filter((n) => n instanceof HTMLElement)
+            .map((e) => new ElementTree(e));
+    }
 }
 
 new TreeDisplayer(new ElementTree(document.documentElement), "\t").display();
