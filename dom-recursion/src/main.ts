@@ -1,16 +1,16 @@
-class ElementContainer {
+class ElementTree {
     element: HTMLElement;
     childNodes: NodeListOf<ChildNode>;
-    childElements: Array<ElementContainer>;
-    nodeName: string;
+    childElements: Array<ElementTree>;
+    displayString: string;
 
     constructor(element: HTMLElement) {
         this.element = element;
-        this.nodeName = element.nodeName;
+        this.displayString = element.nodeName;
         this.childNodes = element.childNodes;
         this.childElements = Array.from(element.childNodes)
             .filter((n) => n instanceof HTMLElement)
-            .map((e) => new ElementContainer(e));
+            .map((e) => new ElementTree(e));
     }
 
     hasChildren(): boolean {
@@ -33,7 +33,7 @@ class TreeDisplayer {
         depth = depth === undefined ? 0 : depth + 1;
         e = e ? e : this.root;
 
-        this.print(e.nodeName, depth);
+        this.print(e.displayString, depth);
 
         e.childElements.forEach((e, i) => {
             this.display(e, depth);
@@ -42,11 +42,8 @@ class TreeDisplayer {
 }
 
 interface Printable {
-    nodeName: string;
+    displayString: string;
     childElements: Array<Printable>;
 }
 
-new TreeDisplayer(
-    new ElementContainer(document.documentElement),
-    "\t"
-).display();
+new TreeDisplayer(new ElementTree(document.documentElement), "\t").display();

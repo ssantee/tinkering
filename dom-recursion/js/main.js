@@ -1,12 +1,12 @@
 "use strict";
-class ElementContainer {
+class ElementTree {
     constructor(element) {
         this.element = element;
-        this.nodeName = element.nodeName;
+        this.displayString = element.nodeName;
         this.childNodes = element.childNodes;
         this.childElements = Array.from(element.childNodes)
             .filter((n) => n instanceof HTMLElement)
-            .map((e) => new ElementContainer(e));
+            .map((e) => new ElementTree(e));
     }
     hasChildren() {
         return this.element.children && this.element.children.length > 0;
@@ -25,11 +25,11 @@ class TreeDisplayer {
     display(e, depth) {
         depth = depth === undefined ? 0 : depth + 1;
         e = e ? e : this.root;
-        this.print(e.nodeName, depth);
+        this.print(e.displayString, depth);
         e.childElements.forEach((e, i) => {
             this.display(e, depth);
         });
     }
 }
-new TreeDisplayer(new ElementContainer(document.documentElement), "\t").display();
+new TreeDisplayer(new ElementTree(document.documentElement), "\t").display();
 //# sourceMappingURL=main.js.map
