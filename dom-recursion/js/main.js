@@ -2,6 +2,7 @@
 class ElementContainer {
     constructor(element) {
         this.element = element;
+        this.nodeName = element.nodeName;
         this.childNodes = element.childNodes;
         this.childElements = Array.from(element.childNodes)
             .filter((n) => n instanceof HTMLElement)
@@ -23,12 +24,12 @@ class TreeDisplayer {
     }
     display(e, depth) {
         depth = depth === undefined ? 0 : depth + 1;
-        e = e ? e : new ElementContainer(this.root);
-        this.print(e.element.nodeName, depth);
+        e = e ? e : this.root;
+        this.print(e.nodeName, depth);
         e.childElements.forEach((e, i) => {
             this.display(e, depth);
         });
     }
 }
-new TreeDisplayer(document.documentElement, "\t").display();
+new TreeDisplayer(new ElementContainer(document.documentElement), "\t").display();
 //# sourceMappingURL=main.js.map

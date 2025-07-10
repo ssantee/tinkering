@@ -2,9 +2,11 @@ class ElementContainer {
     element: HTMLElement;
     childNodes: NodeListOf<ChildNode>;
     childElements: Array<ElementContainer>;
+    nodeName: string;
 
     constructor(element: HTMLElement) {
         this.element = element;
+        this.nodeName = element.nodeName;
         this.childNodes = element.childNodes;
         this.childElements = Array.from(element.childNodes)
             .filter((n) => n instanceof HTMLElement)
@@ -18,8 +20,8 @@ class ElementContainer {
 
 class TreeDisplayer {
     private character: string = "\t";
-    private root: HTMLElement;
-    constructor(root: HTMLElement, character: string) {
+    private root: Printable;
+    constructor(root: Printable, character: string) {
         this.character = character;
         this.root = root;
     }
@@ -27,11 +29,11 @@ class TreeDisplayer {
         const ind = this.character.repeat(depth);
         console.log(ind + elementName);
     }
-    public display(e?: ElementContainer, depth?: number) {
+    public display(e?: Printable, depth?: number) {
         depth = depth === undefined ? 0 : depth + 1;
-        e = e ? e : new ElementContainer(this.root);
+        e = e ? e : this.root;
 
-        this.print(e.element.nodeName, depth);
+        this.print(e.nodeName, depth);
 
         e.childElements.forEach((e, i) => {
             this.display(e, depth);
@@ -44,4 +46,7 @@ interface Printable {
     childElements: Array<Printable>;
 }
 
-new TreeDisplayer(document.documentElement, "\t").display();
+new TreeDisplayer(
+    new ElementContainer(document.documentElement),
+    "\t"
+).display();
