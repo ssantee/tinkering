@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        main {
+            padding: 20px;
+        }
+        section {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background-color: #f4f4f4;
+            padding: 20px;
+            border-radius: 5px;
+        }
+        .indicator {
+            height: 50px;
+            background-color: #ccc;
+            transform: rotateZ(0deg);
+            transform-origin: center center;
+            transition: all 0.3s ease-in-out;
+        }
+        .test-indicator-container{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+        }
+        .test-indicator {
+            width: 5px;
+            height: 40px;
+
+            border: 2px solid;
+            border-top-color: tomato;
+            transform: rotateX(0rad) rotateY(0deg) rotateZ(0deg);
+            transform-origin: center center;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+        .grid div {
+            width: 100px;
+            height: 100px;
+            background-color: #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #bbb;
+            border-radius: 5px;
+            transition: background-position 0.3s ease;
+            transition: all 0.3s ease-in-out;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-indicator-container">
+        <div class="indicator">!</div>
+    </div>
+    <main>
+        <section>
+            <div class="indicator">^</div>
+        </section>
+        <section>
+            <div class="grid">
+                <div class="indicator">1</div>
+                <div class="indicator">2</div>
+                <div class="indicator">3</div>
+                <div class="indicator">4</div>
+                <div class="indicator">5</div>
+                <div class="indicator">6</div>
+            </div>
+        </section>
+    </main>
+    <div class="test-indicator-container">
+        <div class="indicator">!</div>
+    </div>
+    <script src="js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const indicators = document.getElementsByClassName('indicator');
+            const pw = new PointerTracker();
+
+            Array.from(indicators).forEach((el) => {
+                const follower = new Follower({ el: el, prop: 'transform', proptemplate: 'rotateZ({val}deg)', templateKey: '{val}' });
+                let i = setInterval(() => {
+                    follower.Follow(pw);
+                }, 300);
+            });
+        });
+    </script>
+</body>
+</html>
