@@ -80,4 +80,9 @@ let elTarget = document.getElementById("elementTarget");
 if (elTarget != null) {
     new TreeDisplayer(new ElementTree(document.documentElement), "\t", "render", elTarget).display();
 }
+let txtTarget2 = document.getElementById("inputTarget2");
+let elTarget2 = document.getElementById("tree2");
+if (txtTarget2 != null) {
+    new TreeDisplayer(new ElementTree(elTarget2), "\t", "text", txtTarget2).display();
+}
 //# sourceMappingURL=main.js.map

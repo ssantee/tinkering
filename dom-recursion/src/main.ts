@@ -135,3 +135,15 @@ if (elTarget != null) {
         elTarget
     ).display();
 }
+
+let txtTarget2 = document.getElementById("inputTarget2");
+let elTarget2 = document.getElementById("tree2");
+
+if (txtTarget2 != null) {
+    new TreeDisplayer(
+        new ElementTree(elTarget2 as HTMLElement),
+        "\t",
+        "text",
+        txtTarget2
+    ).display();
+}
