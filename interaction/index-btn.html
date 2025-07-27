@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            margin: 0;
+        }
+        .button-section {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+        .btn {
+            width: 10rem;
+            padding: 0;
+            font-size: 16px;
+            color: white;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            grid-template-rows: 1fr 1fr 1fr;
+        }
+        .btn .indicator {
+            width: 10%;
+            height: 20px;
+            border-radius: 50%;
+            transition: transform 0.1s ease-in-out;
+            display: block;
+            columns: 1;
+        }
+        .btn-text{
+            grid-column: 2;
+            grid-row: 2;
+        }
+        .row{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            grid-column: 1 / -1;
+        }
+        .row-1 {
+            grid-row: 1;
+        }
+        .row-3 {
+            grid-row: 3;
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <section class="button-section">
+            <button class="btn" id="btn">
+                <span class="row row-1"><span class="indicator">|</span><span class="indicator">|</span></span>
+                <span class="btn-text">Click Me</span>
+                <span class="row row-3"><span class="indicator">|</span><span class="indicator">|</span></span></button>
+        </section>
+    </main>
+    <script src="js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            const indicators = document.getElementsByClassName('indicator');
+            const followers = [];
+            let pw;
+            let active = false;
+
+            const doFollow = function () {
+                if (!active) {
+                    pw = new PointerTracker();
+                    let i = setInterval(() => {
+                        followers.forEach(follower => follower.Follow(pw));
+                    }, 200);
+                    active = true;
+                }
+            };
+
+            const btn = document.getElementById('btn');
+
+            Array.from(indicators).forEach((el) => {
+                const follower = new Follower({ el: el});
+                followers.push(follower);
+            });
+
+            btn.addEventListener('mouseenter', ()=>{
+                doFollow();
+            });
+
+            btn.addEventListener('mouseleave', () => {
+                pw.Stop();
+                active = false;
+            });
+             
+        });
+    </script>
+</body>
+</html>

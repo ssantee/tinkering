@@ -93,10 +93,10 @@
             const pw = new PointerTracker();
 
             Array.from(indicators).forEach((el) => {
-                const follower = new Follower({ el: el, prop: 'transform', proptemplate: 'rotateZ({val}deg)', templateKey: '{val}' });
+                const follower = new Follower({ el: el});
                 let i = setInterval(() => {
                     follower.Follow(pw);
-                }, 300);
+                }, 200);
             });
         });
     </script>
